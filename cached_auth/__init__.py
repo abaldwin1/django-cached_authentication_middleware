@@ -3,6 +3,7 @@ VERSION = (0, 2, 1)
 from django.conf import settings
 from django.contrib.auth import get_user, SESSION_KEY
 from django.core.cache import cache
+from django.core.exceptions import AppRegistryNotReady
 from django.db.models.signals import post_save, post_delete
 from django.utils.functional import SimpleLazyObject
 
@@ -27,7 +28,7 @@ except ImportError:
 try:
     app_label, model_name = settings.AUTH_PROFILE_MODULE.split('.')
     profile_model = get_model(app_label, model_name)
-except (ValueError, AttributeError):
+except (ValueError, AttributeError, AppRegistryNotReady):
     profile_model = None
 
 
